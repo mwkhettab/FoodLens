@@ -325,6 +325,7 @@ struct ResultsView: View {
                     }
                     .padding()
                     .background(Color.gray.opacity(0.2))
+                    .frame(maxWidth: .infinity)
                     .cornerRadius(10)
                     
                     

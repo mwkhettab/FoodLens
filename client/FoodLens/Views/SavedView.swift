@@ -8,20 +8,43 @@ struct MealDetailView: View {
             VStack(alignment: .leading, spacing: 20) {
 
                 VStack(spacing: 10) {
-                    Text("\(Int(meal.calories)) Calories")
-                        .font(.system(size: 40, weight: .bold))
-                        .foregroundColor(.blue)
-
-                    Text("Health Score: \(meal.health_score)/100")
-                        .font(.title3)
+                    Text("Nutritional Analysis")
+                        .font(.largeTitle)
+                        .bold()
                         .foregroundColor(.white)
-
-                    Text("Confidence: \(meal.confidence_level)%")
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
+                    
+                    Text("\(Int(meal.calories)) Calories")
+                        .font(.system(size: 48, weight: .bold))
+                        .foregroundColor(.blue)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Health Score")
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                    
+                    HStack {
+                        Text("\(meal.health_score)/100")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Text("Confidence: \(meal.confidence_level)%")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    
+                    ProgressView(value: Double(meal.health_score), total: 100)
+                        .tint(healthScoreColor(meal.health_score))
+                }
+                .padding()
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(10)
+
 
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Portion Size")
@@ -34,6 +57,7 @@ struct MealDetailView: View {
                 .frame(maxWidth: .infinity)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
+                
 
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Macronutrients")
@@ -86,6 +110,18 @@ struct MealDetailView: View {
         }
         .background(Color.black.ignoresSafeArea())
     }
+    
+    private func healthScoreColor(_ score: Int) -> Color {
+        switch score {
+        case 80...100:
+            return .green
+        case 50...79:
+            return .yellow
+        default:
+            return .red
+        }
+    }
+
 }
 
 struct SavedView: View {
